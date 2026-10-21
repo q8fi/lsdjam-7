@@ -1,17 +1,20 @@
 [gd_scene format=3 uid="uid://muls74ndjs0x"]
 
-[ext_resource type="Script" uid="uid://c1dpi0xhe8076" path="res://scripts/controllers/PlayerController.gd" id="1_ucweq"]
+[ext_resource type="Script" uid="uid://c1dpi0xhe8076" path="res://scripts/controllers/player_controller.gd" id="1_ucweq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yf5fn"]
 
 [node name="Player" type="CharacterBody3D" unique_id=1763747572]
 script = ExtResource("1_ucweq")
+fall_acceleration = 74.965
 sensitivity = 0.001
+viewbob_freq = 6.0
+viewbob_amp = 0.03
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1651194268]
 shape = SubResource("CapsuleShape3D_yf5fn")
 
 [node name="Head" type="Node3D" parent="." unique_id=780823981]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.67776513, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1306929063]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8445221, 1.4787222, 0)
