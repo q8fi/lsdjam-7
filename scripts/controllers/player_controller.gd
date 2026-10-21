@@ -1,12 +1,18 @@
 extends CharacterBody3D
 
 # How fast the player moves in meters per second.
-@export var speed: float = 14.0
+@export var speed : float = 14.0
 # The downward acceleration when in the air, in meters per second squared.
-@export var fall_acceleration: float = 75.0
+@export var fall_acceleration : float = 75.0
 
-@export var sensitivity: float = 5.0
-@export var jump_height: float = 15.0
+@export var sensitivity : float = 5.0
+@export var jump_height : float = 15.0
+
+@export var viewbob_freq : float = 2.4
+@export var viewbob_amp : float = 0.06
+var viewbob_time : float = 0
+
+
 
 const PITCH_MIN := deg_to_rad(-40.0)
 const PITCH_MAX := deg_to_rad(60.0)
@@ -46,3 +52,20 @@ func _physics_process(delta: float):
 
 	# Moving the Character
 	move_and_slide()
+
+	_view_bob(delta)
+
+
+
+func _view_bob(delta: float) -> void:
+	if is_on_floor() and velocity.length() > 0.1:
+		viewbob_time += delta * velocity.length()
+
+		var new_pos = Vector3.ZERO
+		new_pos.y = sin(viewbob_time * viewbob_freq) * viewbob_amp
+		new_pos.x = cos(viewbob_time * viewbob_freq / 2.0) * (viewbob_amp * 0.5)
+
+		camera.transform.origin = new_pos
+	else:
+		viewbob_time = 0.0
+		camera.transform.origin = camera.transform.origin.lerp(Vector3.ZERO, delta * 10.0)
