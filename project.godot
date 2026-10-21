@@ -46,11 +46,6 @@ move_forward={
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/func_godot/plugin.cfg")
-=======
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/func_godot/plugin.cfg")
->>>>>>> bd10709dcb8a12e4be668945b589dcf6b0b8b1d2
 
 [physics]
 
