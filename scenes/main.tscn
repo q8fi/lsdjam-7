@@ -2,6 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://muls74ndjs0x" path="res://scenes/entities/player.tscn" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dotcbfwbycdm0" path="res://scenes/trenchbroom_testmap.tscn" id="2_sugp2"]
+[ext_resource type="Shader" uid="uid://s2v3u87k6u2g" path="res://shaders/ps1_post_process.gdshader" id="3_sugp2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_42nt5"]
+shader = ExtResource("3_sugp2")
 
 [node name="Main" type="Node3D" unique_id=617508588]
 
@@ -9,8 +13,20 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9941915, 0)
 speed = 5.485
 fall_acceleration = 65.27
+sensitivity = 0.02
 
 [node name="TrenchbroomTestmap" parent="." unique_id=1131528275 instance=ExtResource("2_sugp2")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=414194733]
 transform = Transform3D(1, 0, 0, 0, 0.8356054, 0.54933023, 0, -0.54933023, 0.8356054, 0, 3.367538, 9.495206)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1038975036]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1805439117]
+material = SubResource("ShaderMaterial_42nt5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

@@ -8,7 +8,6 @@ extends CharacterBody3D
 @export var sensitivity: float = 5.0
 @export var jump_height: float = 15.0
 
-# Moved this code into a constant
 const PITCH_MIN := deg_to_rad(-40.0)
 const PITCH_MAX := deg_to_rad(60.0)
 
