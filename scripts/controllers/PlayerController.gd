@@ -1,52 +1,49 @@
 extends CharacterBody3D
 
 # How fast the player moves in meters per second.
-@export var speed = 14
+@export var speed: float = 14.0
 # The downward acceleration when in the air, in meters per second squared.
-@export var fall_acceleration = 75
-@export var sensitivity = 5.0
+@export var fall_acceleration: float = 75.0
 
-@onready var head = $Head
-@onready var camera = $Head/Camera3D
+@export var sensitivity: float = 5.0
+@export var jump_height: float = 15.0
 
-var target_velocity = Vector3.ZERO
+# Moved this code into a constant
+const PITCH_MIN := deg_to_rad(-40.0)
+const PITCH_MAX := deg_to_rad(60.0)
+
+@onready var head: Node3D = $Head
+@onready var camera: Camera3D = $Head/Camera3D
+
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-func _unhandled_input(event):
-	if event is InputEventMouseMotion:
-		head.rotate_y(-event.relative.x * sensitivity)
-		camera.rotate_x(-event.relative.y * sensitivity)
-		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-40), deg_to_rad(60))
-	
-func _physics_process(delta):
-	# We create a local variable to store the input direction.
-	var input_dir = Vector3.ZERO
-	var direction = Vector3.ZERO
 
-	# We check for each move input and update the direction accordingly.
-	if Input.is_action_pressed("move_right"):
-		input_dir.x += 1
-	if Input.is_action_pressed("move_left"):
-		input_dir.x -= 1
-	if Input.is_action_pressed("move_back"):
-		input_dir.z += 1
-	if Input.is_action_pressed("move_forward"):
-		input_dir.z -= 1
-		
-	if input_dir != Vector3.ZERO:
-		direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.z)).normalized()
-		
-		# Ground Velocity
-		target_velocity.x = direction.x * speed
-		target_velocity.z = direction.z * speed
-	else:
-		target_velocity = Vector3.ZERO
-		
+func _unhandled_input(event: InputEvent):
+	var captured := Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
+
+	# Frees the mouse on escape
+	if event.is_action_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	elif event is InputEventMouseButton and event.pressed and not captured:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	elif event is InputEventMouseMotion and captured:
+		head.rotate_y(-event.relative.x * sensitivity)
+		camera.rotation.x = clamp(camera.rotation.x - event.relative.y * sensitivity, PITCH_MIN, PITCH_MAX)
+
+func _physics_process(delta: float):
+	# Reads all four move actions at once
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var direction := head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)
+
+	# Ground Velocity
+	velocity.x = direction.x * speed
+	velocity.z = direction.z * speed
+
 	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
-		target_velocity.y = target_velocity.y - (fall_acceleration)
-			
+		velocity.y -= fall_acceleration * delta
+	elif Input.is_action_just_pressed("jump"):
+		velocity.y = jump_height
+
 	# Moving the Character
-	velocity = target_velocity
 	move_and_slide()

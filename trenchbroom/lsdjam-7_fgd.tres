@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDFile" format=3 uid="uid://ckfmeevep4dyh"]
+
+[ext_resource type="Script" uid="uid://drlmgulwbjwqu" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="1_h8o5t"]
+
+[resource]
+script = ExtResource("1_h8o5t")
+metadata/_custom_type_script = "uid://drlmgulwbjwqu"
