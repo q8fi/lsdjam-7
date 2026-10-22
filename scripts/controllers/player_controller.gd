@@ -12,14 +12,11 @@ extends CharacterBody3D
 @export var viewbob_amp : float = 0.06
 var viewbob_time : float = 0
 
-
-
-const PITCH_MIN := deg_to_rad(-40.0)
-const PITCH_MAX := deg_to_rad(60.0)
+const PITCH_MIN := deg_to_rad(-80.0)
+const PITCH_MAX := deg_to_rad(80.0)
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
-
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

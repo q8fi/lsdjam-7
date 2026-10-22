@@ -7,6 +7,10 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_42nt5"]
 shader = ExtResource("3_sugp2")
 
+[sub_resource type="Environment" id="Environment_42nt5"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
 [node name="Main" type="Node3D" unique_id=617508588]
 
 [node name="Player" parent="." unique_id=1763747572 instance=ExtResource("1_0wfyh")]
@@ -16,9 +20,6 @@ fall_acceleration = 65.27
 sensitivity = 0.02
 
 [node name="TrenchbroomTestmap" parent="." unique_id=1131528275 instance=ExtResource("2_sugp2")]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=414194733]
-transform = Transform3D(1, 0, 0, 0, 0.8356054, 0.54933023, 0, -0.54933023, 0.8356054, 0, 3.367538, 9.495206)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1038975036]
 
@@ -30,3 +31,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=474208281]
+environment = SubResource("Environment_42nt5")

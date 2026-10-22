@@ -8,6 +8,7 @@ const float ps1_dither[16] = float[16](
 	-3.0,  1.0, -4.0,  0.0,
 	 3.0, -1.0,  2.0, -2.0
 );
+
 void fragment() {
 	// Called for every pixel the material is visible on.
 	
